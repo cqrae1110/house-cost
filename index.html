@@ -107,8 +107,6 @@
   .note b{color:#5c4600}
   .foot{text-align:center;font-size:11px;color:#9aa0a6;padding:8px 16px 0;line-height:1.7}
   input[type=number]::-webkit-inner-spin-button{opacity:.4}
-  input::placeholder{color:#aab0ba;font-weight:400;font-size:13px}
-  input[type=number]::placeholder{font-size:12px}
 </style>
 </head>
 <body>
@@ -128,16 +126,16 @@
       <div class="grid2">
         <div class="field">
           <label>成交价</label>
-          <div class="in"><input type="number" id="p_deal" placeholder="如 800000" step="10000"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="p_deal" step="10000"><span class="unit">元</span></div>
         </div>
         <div class="field">
           <label>评估价</label>
-          <div class="in"><input type="number" id="p_appr" placeholder="如 800000" step="10000"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="p_appr" step="10000"><span class="unit">元</span></div>
           <div class="hint">贷款按成交价与评估价孰低核定</div>
         </div>
         <div class="field">
           <label>房屋面积</label>
-          <div class="in"><input type="number" id="p_area" placeholder="如 80" step="0.1"><span class="unit">㎡</span></div>
+          <div class="in"><input type="number" id="p_area" step="0.1"><span class="unit">㎡</span></div>
           <div class="hint">90㎡为契税档位分界</div>
         </div>
         <div class="field">
@@ -168,12 +166,12 @@
       <div class="grid2" style="margin-top:10px">
         <div class="field">
           <label>中介及杂费</label>
-          <div class="in"><input type="number" id="p_agentmisc" placeholder="如 13500"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="p_agentmisc"><span class="unit">元</span></div>
           <div class="hint">中介费＋评估/登记/代办费合计，只填数字</div>
         </div>
         <div class="field">
           <label>物业交割预缴</label>
-          <div class="in"><input type="number" id="p_escrow" placeholder="如 2000"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="p_escrow"><span class="unit">元</span></div>
         </div>
       </div>
 
@@ -181,29 +179,29 @@
       <div class="grid3">
         <div class="field">
           <label>首付比例</label>
-          <div class="in"><input type="number" id="g_down" placeholder="如 20" step="1"><span class="unit">%</span></div>
+          <div class="in"><input type="number" id="g_down" step="1"><span class="unit">%</span></div>
         </div>
         <div class="field">
           <label>年利率</label>
-          <div class="in"><input type="number" id="g_rate" placeholder="如 2.6" step="0.1"><span class="unit">%</span></div>
+          <div class="in"><input type="number" id="g_rate" step="0.1"><span class="unit">%</span></div>
           <div class="hint">首套2.6 / 二套3.075</div>
         </div>
         <div class="field">
           <label>年限</label>
-          <div class="in"><input type="number" id="g_year" placeholder="如 30" step="1"><span class="unit">年</span></div>
+          <div class="in"><input type="number" id="g_year" step="1"><span class="unit">年</span></div>
         </div>
         <div class="field">
           <label>月缴存额</label>
-          <div class="in"><input type="number" id="g_cont" placeholder="如 3300" step="100"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="g_cont" step="100"><span class="unit">元</span></div>
         </div>
         <div class="field">
           <label>账户余额</label>
-          <div class="in"><input type="number" id="g_bal" placeholder="如 120000" step="1000"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="g_bal" step="1000"><span class="unit">元</span></div>
           <div class="hint">用于提取回补测算</div>
         </div>
         <div class="field">
           <label>按揭服务费</label>
-          <div class="in"><input type="number" id="g_fee" placeholder="选填" step="100"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="g_fee" step="100"><span class="unit">元</span></div>
           <div class="hint">公积金贷款服务费，手动填</div>
         </div>
       </div>
@@ -212,20 +210,20 @@
       <div class="grid3">
         <div class="field">
           <label>首付比例</label>
-          <div class="in"><input type="number" id="s_down" placeholder="如 15" step="1"><span class="unit">%</span></div>
+          <div class="in"><input type="number" id="s_down" step="1"><span class="unit">%</span></div>
         </div>
         <div class="field">
           <label>年利率</label>
-          <div class="in"><input type="number" id="s_rate" placeholder="如 3.15" step="0.05"><span class="unit">%</span></div>
+          <div class="in"><input type="number" id="s_rate" step="0.05"><span class="unit">%</span></div>
           <div class="hint">首套约3.15 / 二套约3.3+</div>
         </div>
         <div class="field">
           <label>年限</label>
-          <div class="in"><input type="number" id="s_year" placeholder="如 30" step="1"><span class="unit">年</span></div>
+          <div class="in"><input type="number" id="s_year" step="1"><span class="unit">年</span></div>
         </div>
         <div class="field">
           <label>按揭服务费</label>
-          <div class="in"><input type="number" id="s_fee" placeholder="选填" step="100"><span class="unit">元</span></div>
+          <div class="in"><input type="number" id="s_fee" step="100"><span class="unit">元</span></div>
           <div class="hint">商贷按揭服务费，手动填</div>
         </div>
       </div>
