@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a5fb4">
+<title>重庆二手房购房费用测算</title>
+<style>
+  :root{
+    --blue:#1a5fb4; --blue-d:#0e3f7d; --blue-l:#e8f0fb;
+    --ok:#1e8e3e; --warn:#c5221f; --gray:#5f6368;
+    --bg:#f2f4f8; --card:#ffffff; --line:#e3e7ee;
+    --shadow:0 1px 3px rgba(20,40,80,.08), 0 4px 16px rgba(20,40,80,.06);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    background:var(--bg); color:#202124; padding:0 0 48px; font-size:15px;
+  }
+  header{
+    background:linear-gradient(135deg,var(--blue) 0%,#2f7bd0 100%);
+    color:#fff; padding:22px 18px 18px; position:sticky; top:0; z-index:10;
+    box-shadow:0 2px 10px rgba(15,60,120,.25);
+  }
+  header h1{font-size:19px;font-weight:700;letter-spacing:.5px}
+  header p{font-size:12px;opacity:.85;margin-top:4px}
+  .wrap{max-width:520px;margin:0 auto;padding:14px 12px}
+  .card{
+    background:var(--card); border-radius:14px; box-shadow:var(--shadow);
+    margin-bottom:14px; overflow:hidden;
+  }
+  .card-h{
+    display:flex; align-items:center; gap:8px;
+    padding:13px 15px; font-size:15px; font-weight:700; color:var(--blue-d);
+    border-bottom:1px solid var(--line);
+  }
+  .card-h .tag{
+    margin-left:auto; font-size:11px; font-weight:600; color:var(--blue);
+    background:var(--blue-l); padding:3px 9px; border-radius:20px;
+  }
+  .card-b{padding:12px 15px 15px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px 8px}
+  .field label{display:block;font-size:12.5px;color:var(--gray);margin-bottom:5px;line-height:1.3}
+  .field .in{
+    display:flex;align-items:center;background:#f7f9fc;border:1px solid var(--line);
+    border-radius:10px;padding:8px 10px;transition:border-color .15s;
+  }
+  .field .in:focus-within{border-color:var(--blue);background:#fff}
+  .field input{
+    border:none;outline:none;background:transparent;width:100%;
+    font-size:16px;font-weight:600;color:#202124;min-width:0;
+  }
+  .field .unit{font-size:12px;color:var(--gray);white-space:nowrap;margin-left:4px}
+  .field .hint{font-size:11px;color:#9aa0a6;margin-top:3px;line-height:1.35}
+  .seg{display:flex;background:#f0f2f7;border-radius:10px;padding:3px;gap:3px}
+  .seg button{
+    flex:1;border:none;background:transparent;padding:8px 4px;border-radius:8px;
+    font-size:13px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .15s;
+  }
+  .seg button.on{background:#fff;color:var(--blue);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .seg3{display:flex;gap:8px}
+  .seg3 button{
+    flex:1;border:1px solid var(--line);background:#f7f9fc;border-radius:10px;
+    padding:9px 4px;font-size:13px;font-weight:600;color:var(--gray);cursor:pointer;
+  }
+  .seg3 button.on{border-color:var(--blue);background:var(--blue-l);color:var(--blue)}
+  .sec-t{font-size:12.5px;font-weight:700;color:var(--blue-d);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
+  .sec-t:first-child{margin-top:2px}
+  .sec-t::before{content:"";width:4px;height:13px;background:var(--blue);border-radius:2px}
+  .result-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:9px 2px;border-bottom:1px dashed #edf0f5;font-size:14px;
+  }
+  .result-row:last-child{border-bottom:none}
+  .result-row .k{color:var(--gray)}
+  .result-row .v{font-weight:700;font-variant-numeric:tabular-nums}
+  .result-row.total{background:#f6f9fe;margin:0 -10px;padding:11px 12px;border-radius:10px;border:none;margin-top:6px}
+  .result-row.total .k{font-weight:700;color:var(--blue-d);font-size:14.5px}
+  .result-row.total .v{font-size:19px;color:var(--blue)}
+  .cmp{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;
+  }
+  .cmp .box{border:1.5px solid var(--line);border-radius:12px;padding:11px 12px}
+  .cmp .box.gjj{border-color:#bcd4f2;background:#f5f9ff}
+  .cmp .box.sd{border-color:#e4d7f2;background:#faf7ff}
+  .cmp .box h4{font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+  .cmp .box.gjj h4{color:var(--blue)}
+  .cmp .box.sd h4{color:#7b4fc0}
+  .cmp .box .big{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+  .cmp .box.gjj .big{color:var(--blue)}
+  .cmp .box.sd .big{color:#7b4fc0}
+  .cmp .box .sub{font-size:11.5px;color:var(--gray);margin-top:3px}
+  .cmp .box .ln{display:flex;justify-content:space-between;font-size:12.5px;padding:3.5px 0;border-top:1px dashed #eef0f5;margin-top:6px}
+  .cmp .box .ln:first-of-type{margin-top:8px}
+  .cmp .box .ln span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+  .pill{
+    display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:7px;
+  }
+  .pill.ok{background:#e6f4ea;color:var(--ok)}
+  .pill.no{background:#fce8e6;color:var(--warn)}
+  .pill.info{background:var(--blue-l);color:var(--blue-d)}
+  .note{
+    background:#fff8e6;border:1px solid #f2e2b8;border-radius:10px;
+    padding:10px 12px;font-size:12px;color:#7a5c00;line-height:1.6;margin-top:8px;
+  }
+  .note b{color:#5c4600}
+  .foot{text-align:center;font-size:11px;color:#9aa0a6;padding:8px 16px 0;line-height:1.7}
+  input[type=number]::-webkit-inner-spin-button{opacity:.4}
+</style>
+</head>
+<body>
+<header>
+  <h1>重庆二手房购房费用测算</h1>
+  <p>修改参数实时计算 · 公积金/商贷双方案对比</p>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ 参数 ============ -->
+  <div class="card">
+    <div class="card-h">参数设置<span class="tag">改完即算</span></div>
+    <div class="card-b">
+
+      <div class="sec-t">房价与税费</div>
+      <div class="grid2">
+        <div class="field">
+          <label>成交价</label>
+          <div class="in"><input type="number" id="p_deal" value="800000" step="10000"><span class="unit">元</span></div>
+        </div>
+        <div class="field">
+          <label>评估价</label>
+          <div class="in"><input type="number" id="p_appr" value="800000" step="10000"><span class="unit">元</span></div>
+          <div class="hint">贷款按成交价与评估价孰低核定</div>
+        </div>
+        <div class="field">
+          <label>房屋面积</label>
+          <div class="in"><input type="number" id="p_area" value="80" step="0.1"><span class="unit">㎡</span></div>
+          <div class="hint">90㎡为契税档位分界</div>
+        </div>
+        <div class="field">
+          <label>房型档位</label>
+          <div class="seg" id="seg_second">
+            <button data-v="0" class="on">首套</button>
+            <button data-v="1">二套</button>
+          </div>
+          <div class="hint">影响契税与公积金利率</div>
+        </div>
+        <div class="field">
+          <label>是否满2年</label>
+          <div class="seg" id="seg_m2">
+            <button data-v="1" class="on">满2年</button>
+            <button data-v="0">不满2年</button>
+          </div>
+          <div class="hint">满2年免增值税</div>
+        </div>
+        <div class="field">
+          <label>是否满五唯一</label>
+          <div class="seg" id="seg_m5">
+            <button data-v="0" class="on">否</button>
+            <button data-v="1">满五唯一</button>
+          </div>
+          <div class="hint">满五唯一免个税</div>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:10px">
+        <div class="field">
+          <label>中介及杂费</label>
+          <div class="in"><input type="number" id="p_agentmisc" value="13500"><span class="unit">元</span></div>
+          <div class="hint">中介费＋评估/登记/代办费合计，只填数字</div>
+        </div>
+        <div class="field">
+          <label>物业交割预缴</label>
+          <div class="in"><input type="number" id="p_escrow" value="2000"><span class="unit">元</span></div>
+        </div>
+      </div>
+
+      <div class="sec-t">公积金贷款</div>
+      <div class="grid3">
+        <div class="field">
+          <label>首付比例</label>
+          <div class="in"><input type="number" id="g_down" value="20" step="1"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label>年利率</label>
+          <div class="in"><input type="number" id="g_rate" value="2.6" step="0.1"><span class="unit">%</span></div>
+          <div class="hint">首套2.6 / 二套3.075</div>
+        </div>
+        <div class="field">
+          <label>年限</label>
+          <div class="in"><input type="number" id="g_year" value="30" step="1"><span class="unit">年</span></div>
+        </div>
+        <div class="field">
+          <label>月缴存额</label>
+          <div class="in"><input type="number" id="g_cont" value="3300" step="100"><span class="unit">元</span></div>
+        </div>
+        <div class="field">
+          <label>账户余额</label>
+          <div class="in"><input type="number" id="g_bal" value="120000" step="1000"><span class="unit">元</span></div>
+          <div class="hint">用于提取回补测算</div>
+        </div>
+        <div class="field">
+          <label>按揭服务费</label>
+          <div class="in"><input type="number" id="g_fee" value="0" step="100"><span class="unit">元</span></div>
+          <div class="hint">公积金贷款服务费，手动填</div>
+        </div>
+      </div>
+
+      <div class="sec-t">商业贷款</div>
+      <div class="grid3">
+        <div class="field">
+          <label>首付比例</label>
+          <div class="in"><input type="number" id="s_down" value="15" step="1"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label>年利率</label>
+          <div class="in"><input type="number" id="s_rate" value="3.15" step="0.05"><span class="unit">%</span></div>
+          <div class="hint">首套约3.15 / 二套约3.3+</div>
+        </div>
+        <div class="field">
+          <label>年限</label>
+          <div class="in"><input type="number" id="s_year" value="30" step="1"><span class="unit">年</span></div>
+        </div>
+        <div class="field">
+          <label>按揭服务费</label>
+          <div class="in"><input type="number" id="s_fee" value="0" step="100"><span class="unit">元</span></div>
+          <div class="hint">商贷按揭服务费，手动填</div>
+        </div>
+      </div>
+
+      <div class="sec-t">快捷预设</div>
+      <div class="seg3" id="presets">
+        <button data-deal="620000" data-area="78.8" data-name="港城印象·78.8㎡">港城印象</button>
+        <button data-deal="530000" data-area="89" data-name="海樾府·89㎡">海樾府</button>
+        <button data-deal="880000" data-area="96.66" data-name="樱园·96.7㎡">樱园96㎡</button>
+      </div>
+      <div class="hint" style="font-size:11px;color:#9aa0a6;margin-top:6px">快捷预设仅填充成交价与面积，其余参数请自行核对</div>
+    </div>
+  </div>
+
+  <!-- ============ 首次现金 ============ -->
+  <div class="card">
+    <div class="card-h">首次一次性现金支出</div>
+    <div class="card-b">
+      <div class="cmp">
+        <div class="box gjj">
+          <h4>◆ 公积金贷款</h4>
+          <div class="big" id="g_cash">—</div>
+          <div class="sub">购房当月需准备现金（不含月供）</div>
+        </div>
+        <div class="box sd">
+          <h4>◇ 商业贷款</h4>
+          <div class="big" id="s_cash">—</div>
+          <div class="sub">购房当月需准备现金（不含月供）</div>
+        </div>
+      </div>
+      <div id="cashDetail"></div>
+    </div>
+  </div>
+
+  <!-- ============ 月供 ============ -->
+  <div class="card">
+    <div class="card-h">月供与还款对比</div>
+    <div class="card-b">
+      <div class="cmp">
+        <div class="box gjj">
+          <h4>◆ 公积金月供</h4>
+          <div class="big" id="g_pay">—</div>
+          <div class="sub" id="g_pay_sub"></div>
+        </div>
+        <div class="box sd">
+          <h4>◇ 商贷月供</h4>
+          <div class="big" id="s_pay">—</div>
+          <div class="sub" id="s_pay_sub"></div>
+        </div>
+      </div>
+      <div id="coverDetail"></div>
+      <div id="extractCard"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    计算口径：等额本息 · 契税按面积与套数档位 · 满2年免增值税、满五唯一免个税（未满足时由买方承担）<br>
+    政策可能调整，最终以公积金中心与银行审批为准 · 建议签约前咨询 12329
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString("zh-CN");
+const wan = n => (n/10000).toFixed(2) + " 万";
+const CNY = n => "¥" + Math.round(n).toLocaleString("zh-CN");
+
+/* ---------- 等额本息月供 ---------- */
+function pmt(rateY, years, loan){
+  const r = rateY/100/12, n = years*12;
+  if (n <= 0 || loan <= 0) return 0;
+  if (r === 0) return loan/n;
+  return loan * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+}
+
+/* ---------- 状态 ---------- */
+let st = {
+  second: 0, m2: 1, m5: 0,
+  gCash: 0, sCash: 0,
+  gLoan: 0, sLoan: 0,
+  gPay: 0, sPay: 0,
+  gDownPay: 0, sDownPay: 0,
+  deed: 0, tax: 0, vat: 0, agent: 0, escrow: 0, gFee: 0, sFee: 0
+};
+
+/* 中介及杂费：仅手动填写，不做预设（输入框自身已绑定 recalc） */
+const amInput = $("p_agentmisc");
+
+function bindSeg(id, key){
+  $(id).addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    $(id).querySelectorAll("button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    st[key] = parseInt(b.dataset.v);
+    recalc();
+  });
+}
+bindSeg("seg_second", "second");
+bindSeg("seg_m2", "m2");
+bindSeg("seg_m5", "m5");
+
+document.getElementById("presets").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  $("p_deal").value = b.dataset.deal;
+  $("p_area").value = b.dataset.area;
+  recalc();
+});
+
+document.querySelectorAll("input[type=number]").forEach(inp => {
+  inp.addEventListener("input", recalc);
+  inp.addEventListener("change", recalc);
+});
+
+/* ---------- 主计算 ---------- */
+function recalc(){
+  const deal = +$("p_deal").value || 0;
+  const appr = +$("p_appr").value || 0;
+  const area = +$("p_area").value || 0;
+  const base = Math.min(deal, appr);
+
+  const gDown = (+$("g_down").value || 0) / 100;
+  const sDown = (+$("s_down").value || 0) / 100;
+  const gRate = +$("g_rate").value || 0;
+  const sRate = +$("s_rate").value || 0;
+  const gYear = +$("g_year").value || 0;
+  const sYear = +$("s_year").value || 0;
+  const gCont = +$("g_cont").value || 0;
+  const gBal = +$("g_bal").value || 0;
+  const escrow = +$("p_escrow").value || 0;
+
+  /* 中介及杂费：仅手动填写 */
+  const agentMisc = +amInput.value || 0;
+  const gFee = +$("g_fee").value || 0;
+  const sFee = +$("s_fee").value || 0;
+
+  /* 税费 */
+  const deedRate = area <= 90 ? 0.01 : (st.second ? 0.02 : 0.015);
+  const deed = deal * deedRate;
+  const incomeTax = st.m5 ? 0 : deal * 0.01;
+  const vat = st.m2 ? 0 : (deal / 1.05) * 0.053;
+  const agent = agentMisc;
+
+  /* 贷款 */
+  const gLoan = Math.max(0, base * (1 - gDown));
+  const sLoan = Math.max(0, base * (1 - sDown));
+  const gDownPay = deal - gLoan;
+  const sDownPay = deal - sLoan;
+
+  const gPay = pmt(gRate, gYear, gLoan);
+  const sPay = pmt(sRate, sYear, sLoan);
+
+  const gCash = gDownPay + deed + incomeTax + vat + agent + escrow + gFee;
+  const sCash = sDownPay + deed + incomeTax + vat + agent + escrow + sFee;
+
+  st.gCash = gCash; st.sCash = sCash;
+  st.gLoan = gLoan; st.sLoan = sLoan;
+  st.gPay = gPay; st.sPay = sPay;
+  st.gDownPay = gDownPay; st.sDownPay = sDownPay;
+  st.deed = deed; st.tax = incomeTax; st.vat = vat; st.agent = agent; st.escrow = escrow;
+  st.gFee = gFee; st.sFee = sFee;
+
+  renderCash(deal, vat);
+  renderCover(gCont, gBal, gRate, gYear, gLoan);
+}
+
+/* ---------- 现金明细 ---------- */
+function renderCash(deal, vat){
+  $("g_cash").textContent = wan(st.gCash);
+  $("s_cash").textContent = wan(st.sCash);
+  const rows = [
+    ["贷款额", wan(st.gLoan), wan(st.sLoan)],
+    ["首付", wan(st.gDownPay), wan(st.sDownPay)],
+    ["契税", wan(st.deed), wan(st.deed)],
+    ["个人所得税", wan(st.tax), wan(st.tax)],
+    ["增值税及附加", vat > 0 ? wan(vat) : "免征", vat > 0 ? wan(vat) : "免征"],
+    ["中介及杂费", wan(st.agent), wan(st.agent)],
+    ["按揭服务费", fmt(st.gFee), fmt(st.sFee)],
+    ["物业交割预缴", fmt(st.escrow), fmt(st.escrow)]
+  ];
+  let h = '<div class="sec-t">明细</div>';
+  rows.forEach(r => {
+    h += '<div class="result-row"><span class="k">' + r[0] + '</span><span class="v" style="display:flex;gap:14px"><span>' + r[1] + '</span><span style="color:#7b4fc0">' + r[2] + '</span></span></div>';
+  });
+  h += '<div class="result-row total"><span class="k">现金合计</span><span class="v" style="display:flex;gap:14px"><span>' + wan(st.gCash) + '</span><span style="color:#7b4fc0">' + wan(st.sCash) + '</span></span></div>';
+  h += '<div class="note">备注：契税按税务核定最低计税价征收，不一定等于成交价；评估价打折时首付相应增加。若原业主未交存维修基金（老房），需补交约100元/㎡。税费承担方式以买卖合同约定为准。中介及杂费按实际金额手动填写。</div>';
+  $("cashDetail").innerHTML = h;
+}
+
+/* ---------- 月供与覆盖 ---------- */
+function renderCover(gCont, gBal, gRate, gYear, gLoan){
+  $("g_pay").textContent = CNY(st.gPay) + "/月";
+  $("s_pay").textContent = CNY(st.sPay) + "/月";
+
+  const gTotal = st.gPay * 12 * gYear;
+  const sTotal = st.sPay * 12 * (+$("s_year").value || 0);
+  const gInt = gTotal - st.gLoan;
+  const sInt = sTotal - st.sLoan;
+  $("g_pay_sub").textContent = "总利息 " + wan(gInt);
+  $("s_pay_sub").textContent = "总利息 " + wan(sInt);
+
+  let h = '<div class="sec-t">月缴存覆盖（公积金方案）</div>';
+  h += '<div class="result-row"><span class="k">月缴存</span><span class="v">' + CNY(gCont) + '</span></div>';
+  h += '<div class="result-row"><span class="k">月供</span><span class="v">' + CNY(st.gPay) + '</span></div>';
+  h += '<div class="result-row"><span class="k">每月需自贴现金</span><span class="v">' + CNY(Math.max(0, st.gPay - gCont)) + '</span></div>';
+  h += '<div class="result-row"><span class="k">月缴存覆盖比例</span><span class="v">' + (gCont / st.gPay).toFixed(2) + '×</span></div>';
+  const cover = gCont >= st.gPay;
+  h += '<span class="pill ' + (cover ? 'ok' : 'no') + '">' + (cover ? '✓ 月缴存可覆盖月供，零现金压力' : '✗ 月缴存不足，每月需另掏 ' + CNY(st.gPay - gCont)) + '</span>';
+  $("coverDetail").innerHTML = h;
+
+  /* 提取回补卡片 */
+  const back = Math.min(st.gDownPay, gBal);
+  h = '<div class="sec-t">公积金提取回补（二手房）</div>';
+  h += '<div class="note"><b>首付款提取：</b>放款后1年内可提取 ≤ min(已付首付 ' + wan(st.gDownPay) + '，账户余额 ' + wan(gBal) + ')，当前可回补 <b>' + wan(back) + '</b>（仅限线下办理，且当年与还贷提取二选一）。办纯公贷月冲后，月缴 ' + CNY(gCont) + ' 自动抵月供，余额年结息1.5%。</div>';
+  $("extractCard").innerHTML = h;
+}
+
+recalc();
+</script>
+</body>
+</html>
